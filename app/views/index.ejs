@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <form method="POST" action="/login" id="login_form" onsubmit="login(this)">
+        <% if (typeof login_fail_msg !== 'undefined' && login_fail_msg.length > 0){ %>
+            <div class="alert__fail">
+                <%= login_fail_msg %>
+            </div>
+            <% if (typeof register_success_msg !== 'undefined' && register_success_msg.length > 0){ %>
+                <div class="alert__success">
+                    <%= register_success_msg %>
+                </div>
+                <% } %>
+                    <p>Welcome
+                        <%= title %>
+                    </p>
+                    <h2>
+                    </h2>
+</body>
+
 </html>
