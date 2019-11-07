@@ -1,4 +1,4 @@
-# BitPay Node Encryptor App | Backend Developer 
+# Node Encryptor App | BitPay Backend Developer Assessment
 ## Know Before You Go
 * Versioning: 
    - Node v10.16.3
