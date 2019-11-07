@@ -1,58 +1,41 @@
-# JavaScript Jedis - May The Object Be With You
-* Team members: 
-   - Bryan Nonni
-   - Deandre Vasser
-   - Ailany Icassatti 
+# BitPay Node Encryptor App | Backend Developer 
+## Know Before You Go
+* Versioning: 
+   - Node v10.16.3
+   - npm v6.9.0
+   - MongoDB shell and db v4.2.1
 
-## CSc 4370 - Project 2
-* Topic: JavaScript Video Game 
-* Video Game Name: JS Jedi
-* Technologies: 
-   - Node.js
-   - Express.js
-   - JavaScript
-   - Phaser.io
-   - HTML
-   - CSS
-   - MongoDB
+## Who's On First?
+* app/bin/www: app init root
+* app/config:
+   - keys.js: mongoURI, passport secret
+   - passport.js: password salt config
+* app/models:
 
-How to Install
+## Now You Know, Time To Go
 1. Clone this repo
    SSH
    ```
-   git clone git@github.com:bnonni/JS_Jedis.git
+   git clone git@github.com:bnonni/BitPay.git
    ```
    HTTPS
    ```
-   git clone https://github.com/bnonni/JS_Jedis.git
+   git clone https://github.com/bnonni/BitPay.git
    ```
 
-2. Open the repo in your favorite editor, and navigate to app folder. If you're using VScode, do this:
-   - In terminal:
-      ```
-      cd JS_Jedis
-      code .
-      ```
-   - In VScode integrated terminal:
+2. Open the repo in an editor, and `cd` into the app folder. 
       ```
       cd app
       ```
-   - Otherwise, simply open the JS_Jedis folder with your editor
-
 
 3. Inside app/ folder, install dependencies:
    ```
    npm install
    ```
 
-4. Open the mongo.env file, and add your database credentials
-
-5. Add those to your env.
+4. Start the app from app/
    ```
-   source mongo.env
+   npm run app
    ```
 
-6. Finally, let's run our app!
-   ```
-   npm start
-   ```
+5. Nagivate to [127.0.0.1:3000](http://127.0.0.1:3000)
