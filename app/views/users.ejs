@@ -25,22 +25,29 @@
                     <%= publickey_success_msg %>
                         <% } %>
                 </div>
+                <% if (typeof msg_sign_success !== 'undefined' && msg_sign_success.length > 0){ %>
+                    <div class="alert__success">
+                        <%= msg_sign_success %>
+                            <% } %>
+                    </div>
     </div>
-
-    <form method="POST" id="pubKeyForm" action="/publickey">
-        <p>Set Public Key</p>
+    <form method="POST" id="genKeyForm" action="/genkey">
+        <p>Generate Key Pair</p>
+        <input type="submit" value="Generate">
+        <input type="hidden" name="user" value=<%=user%>>
+    </form>
+    <form method="POST" id="pubKeyForm" action="/setkey">
+        <p>Store Public Key</p>
         <input type="text" name="publickey" id="pbk" placeholder="Public Key">
         <input type="hidden" name="user" value=<%=user%>>
         <input type="submit" value="Set">
     </form>
     <form method="POST" id="messageForm" action="/sign">
-        <p>Message</p>
+        <p>Sign Message</p>
         <input type="text" name="message" id="msg" placeholder="Message">
         <input type="submit" value="Sign">
     </form>
     <script>
-        console.log
-
         function clearText() {
             for (var i = 10; i >= 0; i--) {
                 if (i == 1) {
