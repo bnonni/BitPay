@@ -1,8 +1,32 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.alert__fail {
+    color: red;
+    font-weight: 800;
+}
+
+.alert__success {
+    color: green;
+    font-weight: 800;
+}
+
+.errors {
+    color: red;
+    padding: 1em 0;
+}
+
+#username_error,
+#password_error {
+    display: none;
+}
+
+.redinput {
+    border: 5px solid red;
+}
+
+.blackinput {
+    border: 1px solid #aaa;
 }

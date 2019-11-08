@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link href="../stylesheets/style.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../javascripts/validation.js"></script>
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <div>
+        <% if (typeof register_success_msg !== 'undefined' && register_success_msg.length > 0){ %>
+            <div class="alert__success">
+                <%= register_success_msg %>
+                    <% } %>
+            </div>
+            <% if (typeof publickey_success_msg !== 'undefined' && publickey_success_msg.length > 0){ %>
+                <div class="alert__success">
+                    <%= publickey_success_msg %>
+                        <% } %>
+                </div>
+    </div>
+
+    <form method="POST" id="pubKeyForm" action="/publickey">
+        <p>Set Public Key</p>
+        <input type="text" name="publickey" id="pbk" placeholder="Public Key">
+        <input type="hidden" name="user" value=<%=user%>>
+        <input type="submit" value="Set">
+    </form>
+    <form method="POST" id="messageForm" action="/sign">
+        <p>Message</p>
+        <input type="text" name="message" id="msg" placeholder="Message">
+        <input type="submit" value="Sign">
+    </form>
+    <script>
+        console.log
+
+        function clearText() {
+            for (var i = 10; i >= 0; i--) {
+                if (i == 1) {
+                    $('div.alert__fail').fadeOut();
+                    $('div.alert__success').fadeOut();
+                }
+            }
+        }
+        window.setTimeout(() => {
+            clearText();
+        }, 1000);
+    </script>
+</body>
+
+</html>

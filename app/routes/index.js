@@ -1,37 +1,50 @@
-var express = require("express"); //require middleware
-var router = express.Router(); //import router
-const User = require("../models/user"); //require mongoose connection & model
+const express = require("express"), //require middleware
+    router = express.Router(),
+    bcrypt = require("bcryptjs"),
+    jwt = require("jsonwebtoken"),
+    passport = require("passport"),
+    keys = require('crypto');
 
 /* Get home page */
 router.get("/", (req, res, next) => {
-    res.render('index', { title: 'Login' });
+    res.render('index', { title: 'BitPay Developer Assessment' });
 });
 
-router.get("/register", (req, res) => {
-    res.render("game");
+var User = require("../models/User"); //require mongoose connection & model
+var db = require("../config/db");
+
+router.post("/users", (req, res) => {
+    var username = req.body.username;
+    var password = req.body.password;
+    var newUser = new User({ username, password });
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) throw err;
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser.save()
+            if (err) {
+                res.render('index', { register_fail_msg: "Registration failed! Please try again!", title: 'BitPay Developer Assessment' });
+            } else {
+                res.render('users', { register_success_msg: "Welcome " + username + "!", title: 'BitPay Developer Assessment', user: username });
+            }
+        });
+    });
 });
 
-router.post("/register", (req, res) => {
-    var username = req.body.log_username;
-    var userpass = req.body.log_password
-
-    var login = {
-        uname: username,
-        pass: userpass
-    }
-    console.log(login);
-
-    User.findOne({ "username": username }, (err, user) => {
-        if (user == null) {
-            console.log(err);
-            res.render("/", { login_fail_msg: "Login failed! Username and password not set. Please set your username and password." });
-        } else if (userpass != user.password) {
-            console.log(user);
-            res.render("login", { login_fail_msg: "Password Invalid! Please try again." });
-        } else if ((!err) && (userpass == user.password)) {
-            res.redirect(302, "/users");
-        }
-    })
+router.post("/publickey", (req, res) => {
+    var publickey = req.body.publickey;
+    var username = req.body.user;
+    console.log(username);
+    User.findOne({ 'username': username }).then(usr => {
+        var id = usr._id;
+        console.log(id);
+        User.findOneAndUpdate({ _id: id }, { public_key: publickey }, { upsert: true }, (err, doc) => {
+            if (err) throw err;
+            res.render('users', { publickey_success_msg: "Public Key Stored.", title: 'BitPay Developer Assessment', user: username })
+        });
+    });
 });
 
+// 
 module.exports = router;
