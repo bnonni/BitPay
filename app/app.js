@@ -4,7 +4,7 @@ const createError = require('http-errors'),
     cookieParser = require('cookie-parser'),
     logger = require('morgan'),
     session = require('express-session'),
-    indexRouter = require('./routes/index'),
+    index = require('./routes/index'),
     MongoStore = require('connect-mongo')(session),
     db = require("./config/db");
 
@@ -31,7 +31,7 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

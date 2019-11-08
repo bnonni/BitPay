@@ -30,6 +30,7 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/setkey", (req, res) => {
+    crypto.createPrivateKey(key, PrivateKeyInput)
     var publickey = req.body.publickey;
     var username = req.body.user;
     // console.log(username);
@@ -44,34 +45,31 @@ router.post("/setkey", (req, res) => {
 });
 
 router.post("/genkey", (req, res) => {
-    var publickey = crypto.generateKeyPair('rsa', {
+    var username = req.body.user;
+    crypto.generateKeyPair('rsa', {
         modulusLength: 4096,
-        publicKeyEncoding: {
-            type: 'spki',
-            format: 'pem'
-        },
-        privateKeyEncoding: {
-            type: 'pkcs8',
-            format: 'pem',
-            cipher: 'aes-256-cbc',
-            passphrase: 'top secret'
-        }
+        publicKeyEncoding: { type: 'spki', format: 'pem' },
+        privateKeyEncoding: { type: 'pkcs8', format: 'pem', cipher: 'aes-256-cbc', passphrase: 'top secret' }
     }, (err, publicKey, privateKey) => {
-        // Handle errors and use the generated key pair.
+        if (err) return console.log('ERR:' + err);
+        publicKey = publicKey.replace('-----BEGIN PUBLIC KEY-----\n', '');
+        publicKey = publicKey.replace('\n-----END PUBLIC KEY-----\n', '');
+        User.findOne({ 'username': username }).then(usr => {
+            bcrypt.genSalt(10, (err, salt) => {
+                if (err) throw err;
+                bcrypt.hash(privateKey, salt, (err, hash) => {
+                    if (err) throw err;
+                    privateKey = hash;
+                    console.log('Hashed private key: ' + privateKey)
+                    var id = usr._id;
+                    User.findOneAndUpdate({ _id: id }, { public_key: publicKey, private_key: privateKey }, { upsert: true }, (err, doc) => {
+                        if (err) throw err;
+                        res.render('users', { publickey_success_msg: "RSA Key Pair Stored.", title: 'BitPay Developer Assessment', user: username })
+                    });
+                });
+            });
+        });
     });
-
-    console.log(publickey)
-
-    // var username = req.body.user;
-    // console.log(username);
-    // User.findOne({ 'username': username }).then(usr => {
-    //     var id = usr._id;
-    //     // console.log(id);
-    //     User.findOneAndUpdate({ _id: id }, { public_key: publickey }, { upsert: true }, (err, doc) => {
-    //         if (err) throw err;
-    //         res.render('users', { publickey_success_msg: "Public Key Stored.", title: 'BitPay Developer Assessment', user: username })
-    //     });
-    // });
 });
 
 // router.post("/sign", (req, res) => {
