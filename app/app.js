@@ -5,7 +5,7 @@ const createError = require('http-errors'),
     logger = require('morgan'),
     session = require('express-session'),
     index = require('./routes/index'),
-    MongoStore = require('connect-mongo')(session),
+    // MongoStore = require('connect-mongo')(session),
     db = require("./config/db");
 
 process.setMaxListeners(Infinity)
@@ -18,16 +18,16 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-var secret = Math.ceil(Math.random() * 90000 + 10000).toString();
-app.use(session({
-    name: 'BitPay',
-    cookie: { maxAge: 60000 },
-    secret: secret,
-    store: new MongoStore({ mongooseConnection: db }),
-    resave: true,
-    saveUninitialized: true,
-    proxy: true
-}));
+// var secret = Math.ceil(Math.random() * 90000 + 10000).toString();
+// app.use(session({
+//     name: 'BitPay',
+//     cookie: { maxAge: 60000 },
+//     secret: secret,
+//     store: new MongoStore({ mongooseConnection: db }),
+//     resave: true,
+//     saveUninitialized: true,
+//     proxy: true
+// }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

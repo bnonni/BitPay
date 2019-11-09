@@ -3,10 +3,8 @@ const express = require("express"),
     router = express.Router(),
     bcrypt = require("bcryptjs"),
     crypto = require('crypto'),
-    User = require("../models/User");
-var fs = require('fs');
-
-var client_private = fs.readFileSync('./certs/private.pem', 'utf-8');
+    User = require("../models/User"),
+    fs = require('fs');
 
 // route homepage
 router.get("/", (req, res, next) => {
@@ -26,7 +24,7 @@ router.post("/register", (req, res) => {
             if (err) {
                 res.render('index', { register_fail_msg: "Registration failed! Please try again!", title: 'BitPay Developer Assessment' });
             } else {
-                res.render('users', { register_success_msg: "Welcome " + username + "!", title: 'BitPay Developer Assessment', user: username, signed_msg: "" });
+                res.render('users', { register_success_msg: "Welcome " + username + "!", title: 'BitPay Developer Assessment', signed_msg: null, user: username })
             }
         });
     });
@@ -41,7 +39,7 @@ router.post("/storekey", (req, res) => {
         // console.log(id);
         User.findOneAndUpdate({ _id: id }, { public_key: publickey }, { upsert: true }, (err, doc) => {
             if (err) throw err;
-            res.render('users', { publickey_success_msg: "Public Key Stored.", title: 'BitPay Developer Assessment', user: username, signed_msg: "" })
+            res.render('users', { publickey_success_msg: "Public Key Stored.", title: 'BitPay Developer Assessment', signed_msg: null, user: username })
         });
     });
 });
@@ -58,18 +56,22 @@ router.post("/genkey", (req, res) => {
             var id = usr._id;
             User.findOneAndUpdate({ _id: id }, { public_key: publicKey, private_key: privateKey }, { upsert: true }, (err, doc) => {
                 if (err) throw err;
-                res.render('users', { publickey_success_msg: "RSA Key Pair Stored.", title: 'BitPay Developer Assessment', user: username, signed_msg: "" })
+                res.render('users', { publickey_success_msg: "RSA Key Pair Stored.", title: 'BitPay Developer Assessment', signed_msg: null, user: username, })
             });
         });
     });
 });
 
-router.post("/sign", (req, res) => {
-    var signer = crypto.createSign('sha256');
-    var message = req.body.message;
-    signer.update(message);
-    var signature = signer.sign(client_private, 'hex');
-    res.render('users', { msg_sign_success: "RSA Key Pair Stored.", title: 'BitPay Developer Assessment', user: "", signed_msg: signature })
+router.post("/signmsg", (req, res) => {
+    var client_private = fs.readFileSync('certs/private.pem', 'utf-8', (err, data) => {
+        if (err) return console.log(err.stack);
+        console.log(data.toString());
+        var signer = crypto.createSign('sha256');
+        var message = req.body.message;
+        signer.update(message);
+        var signature = signer.sign(client_private, 'hex');
+        res.render('users', { msg_sign_success: "RSA Key Pair Stored.", title: 'BitPay Developer Assessment', signed_msg: signature, user: null })
+    });
 });
 
 module.exports = router;

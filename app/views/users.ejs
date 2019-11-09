@@ -7,8 +7,6 @@
     </title>
     <link href="../stylesheets/style.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="../javascripts/jsrsasign.js"></script>
-    <script src="../javascripts/signMessage.js"></script>
 </head>
 
 <body>
@@ -32,23 +30,24 @@
                             <% } %>
                     </div>
     </div>
-    <form method="POST" id="genKeyForm" action="/genkey">
+    <br>
+    <br>
+    <form method="POST" id="genKeyForm" action="/storekey">
         <p>Generate Key Pair</p>
-        <input type="submit" value="Generate">
         <input type="hidden" name="user" value=<%=user%>>
+        <input type="submit" value="Generate">
     </form>
-    <form method="POST" id="pubKeyForm" action="/storekey">
+    <form method="POST" id="pubKeyForm" action="/genkey">
         <p>Store Public Key</p>
         <input type="text" name="publickey" id="pbk" placeholder="Public Key">
         <input type="hidden" name="user" value=<%=user%>>
         <input type="submit" value="Set">
     </form>
-    <form method="POST" id="messageForm" action="/sign">
+    <form method="POST" id="messageForm" action="/signmsg">
         <p>Sign Message</p>
-        <input type="text" name="private_key" id="prvkey" placeholder="Private Key"><br>
         <input type="text" name="message" id="msg" placeholder="Message"><br>
         <input type="text" name="signed_message" placeholder="Signed Message" value=<%=signed_msg%>>
-        <input type="submit" id="submitmsg" value="Sign">
+        <input type="submit" value="Sign">
     </form>
     <script>
         function clearText() {
