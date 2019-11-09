@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>
         <%= title %>
     </title>
@@ -30,6 +31,13 @@
         <div id="password_error"></div>
         <input type="submit" value="Register">
     </form>
+    <br>
+    <div class="button">
+        <label>Want to verify a message?</label>
+        <a href="/verify">
+            <button>Click Here</button>
+        </a>
+    </div>
     <script>
         function clearText() {
             for (var i = 10; i >= 0; i--) {

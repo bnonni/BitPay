@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        <%= title %>
+    </title>
+    <link href="../stylesheets/style.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <div>
+        <% if (typeof msg_verify_success !== 'undefined' && msg_verify_success.length > 0){ %>
+            <div class="alert__success">
+                <%= msg_verify_success %>
+                    <% } %>
+            </div>
+            <% if (typeof msg_verify_fail !== 'undefined' && msg_verify_fail.length > 0){ %>
+                <div class="alert__fail">
+                    <%= msg_verify_fail %>
+                        <% } %>
+                </div>
+    </div>
+    <form method="POST" id="verifyForm" action="/verify">
+        <p>Verify Signed Message</p>
+        <input type="text" name="signed_message" placeholder="Signed Message">
+        <input type="text" name="username" id="usr" placeholder="Signer's Username">
+        <input type="submit" value="Sign">
+    </form>
+    <script>
+        function clearText() {
+            for (var i = 10; i >= 0; i--) {
+                if (i == 1) {
+                    $('div.alert__fail').fadeOut();
+                    $('div.alert__success').fadeOut();
+                }
+            }
+        }
+        window.setTimeout(() => {
+            clearText();
+        }, 1000);
+    </script>
+</body>
+
+</html>

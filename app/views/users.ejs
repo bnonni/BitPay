@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>
         <%= title %>
     </title>
@@ -30,14 +31,12 @@
                             <% } %>
                     </div>
     </div>
-    <br>
-    <br>
-    <form method="POST" id="genKeyForm" action="/storekey">
+    <form method="POST" id="genKeyForm" action="/genkey">
         <p>Generate Key Pair</p>
         <input type="hidden" name="user" value=<%=user%>>
         <input type="submit" value="Generate">
     </form>
-    <form method="POST" id="pubKeyForm" action="/genkey">
+    <form method="POST" id="pubKeyForm" action="/storekey">
         <p>Store Public Key</p>
         <input type="text" name="publickey" id="pbk" placeholder="Public Key">
         <input type="hidden" name="user" value=<%=user%>>
