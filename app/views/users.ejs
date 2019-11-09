@@ -7,7 +7,8 @@
     </title>
     <link href="../stylesheets/style.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="../javascripts/validation.js"></script>
+    <script src="../javascripts/jsrsasign.js"></script>
+    <script src="../javascripts/signMessage.js"></script>
 </head>
 
 <body>
@@ -36,7 +37,7 @@
         <input type="submit" value="Generate">
         <input type="hidden" name="user" value=<%=user%>>
     </form>
-    <form method="POST" id="pubKeyForm" action="/setkey">
+    <form method="POST" id="pubKeyForm" action="/storekey">
         <p>Store Public Key</p>
         <input type="text" name="publickey" id="pbk" placeholder="Public Key">
         <input type="hidden" name="user" value=<%=user%>>
@@ -44,8 +45,10 @@
     </form>
     <form method="POST" id="messageForm" action="/sign">
         <p>Sign Message</p>
-        <input type="text" name="message" id="msg" placeholder="Message">
-        <input type="submit" value="Sign">
+        <input type="text" name="private_key" id="prvkey" placeholder="Private Key"><br>
+        <input type="text" name="message" id="msg" placeholder="Message"><br>
+        <input type="text" name="signed_message" placeholder="Signed Message" value=<%=signed_msg%>>
+        <input type="submit" id="submitmsg" value="Sign">
     </form>
     <script>
         function clearText() {

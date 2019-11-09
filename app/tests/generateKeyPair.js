@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var crypto = require('crypto');
 var bcrypt = require("bcryptjs");
 

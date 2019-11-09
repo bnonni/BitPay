@@ -3,7 +3,10 @@ const express = require("express"),
     router = express.Router(),
     bcrypt = require("bcryptjs"),
     crypto = require('crypto'),
-    User = require("../models/User"); //require mongoose connection & model
+    User = require("../models/User");
+var fs = require('fs');
+
+var client_private = fs.readFileSync('./certs/private.pem', 'utf-8');
 
 // route homepage
 router.get("/", (req, res, next) => {
@@ -23,14 +26,13 @@ router.post("/register", (req, res) => {
             if (err) {
                 res.render('index', { register_fail_msg: "Registration failed! Please try again!", title: 'BitPay Developer Assessment' });
             } else {
-                res.render('users', { register_success_msg: "Welcome " + username + "!", title: 'BitPay Developer Assessment', user: username });
+                res.render('users', { register_success_msg: "Welcome " + username + "!", title: 'BitPay Developer Assessment', user: username, signed_msg: "" });
             }
         });
     });
 });
 
-router.post("/setkey", (req, res) => {
-    crypto.createPrivateKey(key, PrivateKeyInput)
+router.post("/storekey", (req, res) => {
     var publickey = req.body.publickey;
     var username = req.body.user;
     // console.log(username);
@@ -39,7 +41,7 @@ router.post("/setkey", (req, res) => {
         // console.log(id);
         User.findOneAndUpdate({ _id: id }, { public_key: publickey }, { upsert: true }, (err, doc) => {
             if (err) throw err;
-            res.render('users', { publickey_success_msg: "Public Key Stored.", title: 'BitPay Developer Assessment', user: username })
+            res.render('users', { publickey_success_msg: "Public Key Stored.", title: 'BitPay Developer Assessment', user: username, signed_msg: "" })
         });
     });
 });
@@ -52,39 +54,22 @@ router.post("/genkey", (req, res) => {
         privateKeyEncoding: { type: 'pkcs8', format: 'pem', cipher: 'aes-256-cbc', passphrase: 'top secret' }
     }, (err, publicKey, privateKey) => {
         if (err) return console.log('ERR:' + err);
-        publicKey = publicKey.replace('-----BEGIN PUBLIC KEY-----\n', '');
-        publicKey = publicKey.replace('\n-----END PUBLIC KEY-----\n', '');
         User.findOne({ 'username': username }).then(usr => {
-            bcrypt.genSalt(10, (err, salt) => {
+            var id = usr._id;
+            User.findOneAndUpdate({ _id: id }, { public_key: publicKey, private_key: privateKey }, { upsert: true }, (err, doc) => {
                 if (err) throw err;
-                bcrypt.hash(privateKey, salt, (err, hash) => {
-                    if (err) throw err;
-                    privateKey = hash;
-                    console.log('Hashed private key: ' + privateKey)
-                    var id = usr._id;
-                    User.findOneAndUpdate({ _id: id }, { public_key: publicKey, private_key: privateKey }, { upsert: true }, (err, doc) => {
-                        if (err) throw err;
-                        res.render('users', { publickey_success_msg: "RSA Key Pair Stored.", title: 'BitPay Developer Assessment', user: username })
-                    });
-                });
+                res.render('users', { publickey_success_msg: "RSA Key Pair Stored.", title: 'BitPay Developer Assessment', user: username, signed_msg: "" })
             });
         });
     });
 });
 
-// router.post("/sign", (req, res) => {
-//     var publickey = req.body.publickey;
-//     //var publickey = crypto.diffieHellman.setPublicKey()
-//     var username = req.body.user;
-//     console.log(username);
-//     User.findOne({ 'username': username }).then(usr => {
-//         var id = usr._id;
-//         console.log(id);
-//         User.findOneAndUpdate({ _id: id }, { public_key: publickey }, { upsert: true }, (err, doc) => {
-//             if (err) throw err;
-//             res.render('users', { publickey_success_msg: "Public Key Stored.", title: 'BitPay Developer Assessment', user: username })
-//         });
-//     });
-// });
+router.post("/sign", (req, res) => {
+    var signer = crypto.createSign('sha256');
+    var message = req.body.message;
+    signer.update(message);
+    var signature = signer.sign(client_private, 'hex');
+    res.render('users', { msg_sign_success: "RSA Key Pair Stored.", title: 'BitPay Developer Assessment', user: "", signed_msg: signature })
+});
 
 module.exports = router;
