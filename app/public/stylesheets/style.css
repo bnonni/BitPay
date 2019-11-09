@@ -13,6 +13,11 @@ body {
     font-weight: 800;
 }
 
+#forms {
+    position: fixed;
+    top: 150px;
+}
+
 .errors {
     color: red;
     padding: 1em 0;
