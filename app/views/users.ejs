@@ -25,16 +25,26 @@
                 <%= register_success_msg %>
                     <% } %>
             </div>
-            <% if (typeof publickey_success_msg !== 'undefined' && publickey_success_msg.length > 0){ %>
+            <% if (typeof publickey_store_success !== 'undefined' && publickey_store_success.length > 0){ %>
                 <div class="alert__success">
-                    <%= publickey_success_msg %>
+                    <%= publickey_store_success %>
                         <% } %>
                 </div>
-                <% if (typeof msg_sign_success !== 'undefined' && msg_sign_success.length > 0){ %>
-                    <div class="alert__success">
-                        <%= msg_sign_success %>
+                <% if (typeof publickey_store_fail !== 'undefined' && publickey_store_fail.length > 0){ %>
+                    <div class="alert__fail">
+                        <%= publickey_store_fail %>
                             <% } %>
                     </div>
+                    <% if (typeof msg_sign_success !== 'undefined' && msg_sign_success.length > 0){ %>
+                        <div class="alert__success">
+                            <%= msg_sign_success %>
+                                <% } %>
+                        </div>
+                        <% if (typeof msg_sign_fail !== 'undefined' && msg_sign_fail.length > 0){ %>
+                            <div class="alert__fail">
+                                <%= msg_sign_fail %>
+                                    <% } %>
+                            </div>
     </div>
     <div id="forms">
         <form method="POST" id="genKeyForm" action="/generate">
@@ -43,7 +53,7 @@
             <input type="submit" value="Generate">
         </form>
         <form method="POST" id="pubKeyForm" action="/store">
-            <p>Store Public Key (Do Not Include First/Last Line of PEM Key)</p>
+            <p>Store Public Key</p>
             <input type="hidden" name="username" value=<%=username%>>
             <input type="text" name="publickey" id="pbk" placeholder="Public Key">
             <input type="submit" value="Set">
@@ -51,9 +61,12 @@
         <form method="POST" id="messageForm" action="/sign">
             <p>Sign Message</p>
             <input type="hidden" name="username" value=<%=username%>>
-            <input type="text" name="message" id="msg" placeholder="Message"><br>
-            <input type="text" name="signature" placeholder="Signed Message" value=<%=signature%>>
-            <input type="submit" value="Sign">
+            <% if (missing_key != "hidden"){ %>
+                <input type="text" name="privatekey" placeholder="Private Key"><br>
+                <% } %>
+                    <input type="text" name="message" id="msg" placeholder="Message"><br>
+                    <input type="text" name="signature" placeholder="Signed Message" value=<%=signature%>>
+                    <input type="submit" value="Sign">
         </form>
     </div>
     <script>
@@ -67,7 +80,7 @@
         }
         window.setTimeout(() => {
             clearText();
-        }, 1000);
+        }, 5000);
     </script>
 </body>
 
