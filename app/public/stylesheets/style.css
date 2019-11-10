@@ -13,6 +13,11 @@ body {
     font-weight: 800;
 }
 
+#index_form {
+    position: fixed;
+    top: 150px;
+}
+
 #forms {
     position: fixed;
     top: 175px;

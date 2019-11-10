@@ -22,35 +22,36 @@
             </div>
             <% } %>
     </div>
-    <form method="POST" id="register" action="/register" onsubmit=validate(this)>
-        <p>Set Username</p>
-        <input type="text" name="username" id="usr" placeholder="Username">
-        <div id="username_error"></div>
-        <p>Set Password</p>
-        <input type="password" name="password" id="pwd" placeholder="Password">
-        <div id="password_error"></div>
-        <input type="submit" value="Register">
-    </form>
-    <br>
-    <div class="button">
-        <label>Want to verify a message?</label>
-        <a href="/verify">
-            <button>Click Here</button>
-        </a>
-    </div>
-    <script>
-        function clearText() {
-            for (var i = 10; i >= 0; i--) {
-                if (i == 1) {
-                    $('div.alert__fail').fadeOut();
-                    $('div.alert__success').fadeOut();
+    <div id="index_form">
+        <form method="POST" id="register" action="/register" onsubmit=validate(this)>
+            <p>Set Username</p>
+            <input type="text" name="username" id="usr" placeholder="Username">
+            <div id="username_error"></div>
+            <p>Set Password</p>
+            <input type="password" name="password" id="pwd" placeholder="Password">
+            <div id="password_error"></div>
+            <input type="submit" value="Register">
+        </form>
+        <br>
+        <div class="button">
+            <label>Want to verify a message?</label>
+            <a href="/verify">
+                <button>Click Here</button>
+            </a>
+        </div>
+        <script>
+            function clearText() {
+                for (var i = 10; i >= 0; i--) {
+                    if (i == 1) {
+                        $('div.alert__fail').fadeOut();
+                        $('div.alert__success').fadeOut();
+                    }
                 }
             }
-        }
-        window.setTimeout(() => {
-            clearText();
-        }, 1000);
-    </script>
+            window.setTimeout(() => {
+                clearText();
+            }, 1000);
+        </script>
 </body>
 
 </html>

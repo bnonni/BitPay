@@ -37,11 +37,12 @@
             <input class="inputs" type="text" name="message" placeholder="Message">
             <input class="inputs" type="text" name="signature" placeholder="Signature">
             <input class="inputs" type="text" name="username" placeholder="Signer's Username">
-            <% if (verification == false){ %>
-                <input class="inputs" type="text" name="verification" placeholder="Verified" value="This message was not signed by <%= username %>.">>
-                <% } %>
-                    <% if (verification == true){ %>
-                        <input class="inputs" type="text" name="verification" placeholder="Verified" value="This message was signed by <%= username %>.">
+            <% if (verification == null){ %>
+                <input class="inputs" type="text" name="verification" placeholder="Verified" value="">
+                <% } else if (verification == false){ %>
+                    <input class="inputs" type="text" name="verification" placeholder="Verified" value="Unverified! This message was not signed by <%= username %>.">
+                    <% }else if (verification == true){ %>
+                        <input class="inputs" type="text" name="verification" placeholder="Verified" value="Verified! This message was signed by <%= username %>.">
                         <% } %>
                             <input type="submit" value="Sign">
         </form>
@@ -57,7 +58,7 @@
         }
         window.setTimeout(() => {
             clearText();
-        }, 1000);
+        }, 2000);
     </script>
 </body>
 

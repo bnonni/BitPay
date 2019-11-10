@@ -1,4 +1,4 @@
-# Node Encryptor App | BitPay
+# BitPay Developer Assessment
 ## Know Before You Go
 * Versioning: 
    - Node v10.16.3
@@ -39,3 +39,6 @@
    ```
 
 5. Nagivate to [127.0.0.1:3000](http://127.0.0.1:3000)
+
+## Features & Usability
+* 

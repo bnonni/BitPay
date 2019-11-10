@@ -43,7 +43,7 @@
             <input type="submit" value="Generate">
         </form>
         <form method="POST" id="pubKeyForm" action="/store">
-            <p>Store Public Key</p>
+            <p>Store Public Key (Do Not Include First/Last Line of PEM Key)</p>
             <input type="hidden" name="username" value=<%=username%>>
             <input type="text" name="publickey" id="pbk" placeholder="Public Key">
             <input type="submit" value="Set">

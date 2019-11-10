@@ -2,22 +2,12 @@
 
 var crypto = require('crypto');
 var bcrypt = require("bcryptjs");
+const fs = require('fs');
 
-crypto.generateKeyPair('rsa', {
-    modulusLength: 4096,
+var { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+    modulusLength: 2048,
     publicKeyEncoding: { type: 'spki', format: 'pem' },
-    privateKeyEncoding: { type: 'pkcs8', format: 'pem', cipher: 'aes-256-cbc', passphrase: 'top secret' }
-}, (err, publicKey, privateKey) => {
-    if (err) console.log('ERR:' + err);
-    console.log(publicKey);
-    console.log(privateKey)
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) throw err;
-        console.log(publicKey);
-        bcrypt.hash(privateKey, salt, (err, hash) => {
-            if (err) throw err;
-            privateKey = hash;
-            console.log('Hashed private key: ' + privateKey)
-        });
-    });
+    privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
 });
+fs.writeFileSync('./pem/private.pem', privateKey, 'utf-8');
+fs.writeFileSync('./pem/public.pem', publicKey, 'utf-8');
