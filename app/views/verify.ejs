@@ -34,12 +34,16 @@
     <div id="forms">
         <form method="POST" id="verifyForm" action="/verify">
             <p>Verify Signed Message</p>
-            <input type="text" name="signature" placeholder="Signature">
-            <input type="text" name="username" id="usr" placeholder="Signer's Username">
+            <input class="inputs" type="text" name="message" placeholder="Message">
+            <input class="inputs" type="text" name="signature" placeholder="Signature">
+            <input class="inputs" type="text" name="username" placeholder="Signer's Username">
             <% if (verification == false){ %>
-                <input type="text" name="verification" id="verify" placeholder="Verified" value="<%=verification%>">
+                <input class="inputs" type="text" name="verification" placeholder="Verified" value="This message was not signed by <%= username %>.">>
                 <% } %>
-                    <input type="submit" value="Sign">
+                    <% if (verification == true){ %>
+                        <input class="inputs" type="text" name="verification" placeholder="Verified" value="This message was signed by <%= username %>.">
+                        <% } %>
+                            <input type="submit" value="Sign">
         </form>
     </div>
     <script>

@@ -37,22 +37,22 @@
                     </div>
     </div>
     <div id="forms">
-        <form method="POST" id="genKeyForm" action="/genkeys">
+        <form method="POST" id="genKeyForm" action="/generate">
             <p>Generate Key Pair</p>
             <input type="hidden" name="username" value=<%=username%>>
             <input type="submit" value="Generate">
         </form>
-        <form method="POST" id="pubKeyForm" action="/storekey">
+        <form method="POST" id="pubKeyForm" action="/store">
             <p>Store Public Key</p>
             <input type="hidden" name="username" value=<%=username%>>
             <input type="text" name="publickey" id="pbk" placeholder="Public Key">
             <input type="submit" value="Set">
         </form>
-        <form method="POST" id="messageForm" action="/signmsg">
+        <form method="POST" id="messageForm" action="/sign">
             <p>Sign Message</p>
             <input type="hidden" name="username" value=<%=username%>>
             <input type="text" name="message" id="msg" placeholder="Message"><br>
-            <input type="text" name="signed_message" placeholder="Signed Message" value=<%=signed_msg%>>
+            <input type="text" name="signature" placeholder="Signed Message" value=<%=signature%>>
             <input type="submit" value="Sign">
         </form>
     </div>

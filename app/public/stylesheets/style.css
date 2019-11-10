@@ -18,6 +18,10 @@ body {
     top: 175px;
 }
 
+#forms .inputs {
+    width: 250px;
+}
+
 .errors {
     color: red;
     padding: 1em 0;
