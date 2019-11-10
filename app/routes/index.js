@@ -4,7 +4,6 @@ const express = require('express'),
     bcrypt = require('bcryptjs'),
     crypto = require('crypto'),
     User = require('../models/User'),
-    session = require('express-session'),
     fs = require('fs');
 
 // route homepage
@@ -17,16 +16,20 @@ router.get('/verify', (req, res, next) => {
     res.render('verify', { title: 'BitPay Developer Assessment', verification: null, username: '' });
 });
 
+// route registration
 router.post('/register', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
+    // access db based on username, catch error if mongo not running
     User.findOne({ username: username })
         .then(user => {
+            // check if username exists
             if (user) {
                 return res.status(400).render('index', { title: 'BitPay Developer Assessment', register_fail_msg: "Username already exists." });
             } else {
                 var newUser = new User({ username, password });
             }
+            // hash password with salt, store to DB, load user page or index if error
             bcrypt.genSalt(10, (err, salt) => {
                 if (err) throw err;
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -48,10 +51,12 @@ router.post('/register', (req, res) => {
         })
 });
 
+// route public key store
 router.post('/store', (req, res) => {
     const begin = /BEGIN | END/;
     var publickey = req.body.publickey,
         username = req.body.username;
+    // check for improper key formatting, return err or reformat
     if (begin.test(publickey)) {
         return res.status(400).render('users', { publickey_store_fail: 'Error! Public Key Not Stored. Remove -----BEGIN PUBLIC KEY----- and -----END PUBLIC KEY-----', title: 'BitPay Developer Assessment', signature: null, username: username, missing_key: 'hidden' });
     } else {
@@ -59,11 +64,12 @@ router.post('/store', (req, res) => {
         publickey = '-----BEGIN PUBLIC KEY-----\n' + publickey + '\n-----END PUBLIC KEY-----\n'
         console.log(publickey)
     }
+    // find user in DB, update doc, catch err
     User.findOne({ username: username })
         .then(usr => {
             const id = usr._id;
             User.findOneAndUpdate({ _id: id }, { public_key: publickey, private_key: '' }, { upsert: true }, (err, doc) => {
-                (err ? (console.log(err)) : res.render('users', { publickey_store_success: 'Public Key Stored.', title: 'BitPay Developer Assessment', signature: null, username: username, missing_key: 'hidden' }));
+                res.render('users', { publickey_store_success: 'Public Key Stored.', title: 'BitPay Developer Assessment', signature: null, username: username, missing_key: 'hidden' });
             });
         })
         .catch(err => {
@@ -113,7 +119,7 @@ router.post('/sign', (req, res) => {
                 sign.update(message, 'utf-8');
                 sign.end()
                 const signature = sign.sign(private_key_send, 'hex');
-                User.findOneAndUpdate({ _id: _id }, { message: message, signature: signature }, { upsert: true }, (err, doc) => {
+                User.findOneAndUpdate({ _id: _id }, { private_key: private_key_send, message: message, signature: signature }, { upsert: true }, (err, doc) => {
                     show = true;
                     res.status(200).render('users', { msg_sign_success: 'Message Signed.', title: 'BitPay Developer Assessment', signature: signature, username: username, missing_key: 'show' });
                 });
@@ -143,8 +149,7 @@ router.post('/verify', (req, res) => {
             res.render('verify', { msg_verify_success: 'Signature Verified.', title: 'BitPay Developer Assessment', verification: verification, username: username })
         })
         .catch(err => {
-            res.status(400).render('verify', { msg_verify_fail: 'Error! Message unverifiable. Please enter your private key and retry.', title: 'BitPay Developer Assessment', verification: null, username: username })
-            throw err;
+            res.status(400).render('verify', { msg_verify_fail: 'Error! Message unverifiable. Please verify accuracy of your input data & retry.', title: 'BitPay Developer Assessment', verification: null, username: username })
         })
 });
 
