@@ -11,6 +11,11 @@
 </head>
 
 <body>
+    <div class="button">
+        <a href="/">
+            <button>Home</button>
+        </a>
+    </div>
     <h1>
         <%= title %>
     </h1>
@@ -26,12 +31,17 @@
                         <% } %>
                 </div>
     </div>
-    <form method="POST" id="verifyForm" action="/verify">
-        <p>Verify Signed Message</p>
-        <input type="text" name="signed_message" placeholder="Signed Message">
-        <input type="text" name="username" id="usr" placeholder="Signer's Username">
-        <input type="submit" value="Sign">
-    </form>
+    <div id="forms">
+        <form method="POST" id="verifyForm" action="/verify">
+            <p>Verify Signed Message</p>
+            <input type="text" name="signature" placeholder="Signature">
+            <input type="text" name="username" id="usr" placeholder="Signer's Username">
+            <% if (verification == false){ %>
+                <input type="text" name="verification" id="verify" placeholder="Verified" value="<%=verification%>">
+                <% } %>
+                    <input type="submit" value="Sign">
+        </form>
+    </div>
     <script>
         function clearText() {
             for (var i = 10; i >= 0; i--) {
