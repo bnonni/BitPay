@@ -4,6 +4,7 @@ const createError = require('http-errors'),
     logger = require('morgan'),
     session = require('express-session'),
     index = require('./routes/index');
+require('./config/db');
 
 process.setMaxListeners(Infinity)
 var app = express();
