@@ -1,3 +1,4 @@
+// get mongo keys and connect to DB
 const mongoose = require('mongoose'),
     keys = require('./keys');
 

@@ -1,11 +1,9 @@
 const createError = require('http-errors'),
     express = require('express'),
     path = require('path'),
-    cookieParser = require('cookie-parser'),
     logger = require('morgan'),
     session = require('express-session'),
-    index = require('./routes/index'),
-    db = require("./config/db");
+    index = require('./routes/index');
 
 process.setMaxListeners(Infinity)
 var app = express();
@@ -28,8 +26,10 @@ app.use(session({
     proxy: true
 }));
 
+// route app to static files for view engine
 app.use(express.static(path.join(__dirname, 'public')));
 
+// route app to index page
 app.use('/', index);
 
 // catch 404 and forward to error handler

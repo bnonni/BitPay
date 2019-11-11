@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+// set mongoose model for mongoDB
 var mongoose = require('mongoose');
 var UserSchema = new mongoose.Schema({
     username: { type: String, required: true },
