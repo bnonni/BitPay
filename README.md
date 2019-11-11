@@ -1,9 +1,9 @@
 # BitPay Developer Assessment
 ## Know Before You Go
 * Core:
-   - Node v10.16.3
-   - npm v6.9.0
-   - MongoDB shell and db v4.2.1
+   - `Node v10.16.3`
+   - `npm v6.9.0`
+   - `MongoDB shell and db v4.2.1`
 * Dependencies:
    - `"bcryptjs": "^2.4.3"`
    - `"crypto": "^1.0.1"`
@@ -19,17 +19,17 @@
    - `"nodemon": "^1.19.4"`
 
 ## What's what?
-* app/: app start location
-   |-bin/www: app start file
-   |-config/keys: contians mongoURI
-   |-config/db: contians mongoose setup for DB connection
-   |-models/User: contains mongoose user schema
-   |-public/javascripts/validation.js: static, client-side JS to validate set username, set password
-   |-public/stylesheets/style.css: static CSS sheet
-   |-routes/index: main router file containing all app routes
-   |-tests/: test scripts written in isolation for crypto functionality
-   |-views/: all ejs render templates for viewing engine
-   |-app.js: app creation file
+* `app/: app start location`
+   - `|-bin/www: app start file`
+   - `|-config/keys: contians mongoURI`
+   - `|-config/db: contians mongoose setup for DB connection`
+   - `|-models/User: contains mongoose user schema`
+   - `|-public/javascripts/validation.js: static, client-side JS to validate set username, set password`
+   - `|-public/stylesheets/style.css: static CSS sheet`
+   - `|-routes/index: main router file containing all app routes`
+   - `|-tests/: test scripts written in isolation for crypto functionality`
+   - `|-views/: all ejs render templates for viewing engine`
+   - `|-app.js: app creation file`
 
 ## Now You Know, Time To Go
 1. Clone this repo
