@@ -1,22 +1,9 @@
-# BitPay Developer Assessment
+# Sign and Verify Crypto
 ## Know Before You Go
 * Core:
    - `Node v10.16.3`
    - `npm v6.9.0`
    - `MongoDB shell and db v4.2.1`
-* Dependencies:
-   - `"bcryptjs": "^2.4.3"`
-   - `"crypto": "^1.0.1"`
-   - `"debug": "~2.6.9"`
-   - `"ejs": "~2.6.1"`
-   - `"ejs-lint": "^0.3.0"`
-   - `"express": "~4.16.1"`
-   - `"express-session": "^1.17.0"`
-   - `"http-errors": "~1.6.3"`
-   - `"jsonwebtoken": "^8.5.1"`
-   - `"mongoose": "^5.7.9"`
-   - `"morgan": "~1.9.1"`
-   - `"nodemon": "^1.19.4"`
 
 ## What's what?
 * `app/: app start location`
