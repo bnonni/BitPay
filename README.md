@@ -24,11 +24,11 @@ Basic node/express app that allows users to create accounts, generate RSA keypai
 1. Clone this repo
    SSH
    ```
-   git clone git@github.com:bnonni/BitPay.git
+   git clone git@github.com:bnonni/dont-trust-verify.git
    ```
    HTTPS
    ```
-   git clone https://github.com/bnonni/BitPay.git
+   git clone https://github.com/bnonni/dont-trust-verify.git
    ```
 
 2. Open the repo in an editor, and `cd` into the app folder. 
