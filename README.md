@@ -1,4 +1,6 @@
-# Sign and Verify Crypto
+# Don't Trust Verify
+Basic node/express app that allows users to create accounts, generate RSA keypairs, sign messages and verify those messages.
+
 ## Know Before You Go
 * Core:
    - `Node v10.16.3`
